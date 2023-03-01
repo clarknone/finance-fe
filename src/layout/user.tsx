@@ -9,3 +9,4 @@ export default function UserLayout({ children }: PropsWithChildren) {
     </Container>
   );
 }
+ 
