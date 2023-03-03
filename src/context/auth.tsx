@@ -4,6 +4,7 @@ interface IAuthContext {
   auth?: {};
   login?: () => void;
   signup?: () => void;
+  logout?: () => void;
 }
 
 const AuthContext = createContext<IAuthContext>({});
@@ -14,10 +15,11 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
 
   function login() {}
   function signup() {}
+  function logout() {}
 
   useEffect(() => {}, []);
 
-  return <AuthContext.Provider value={{ auth, login }}>{!loading && children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ auth, login, signup, logout }}>{!loading && children}</AuthContext.Provider>;
 }
 
 export const useAuthContext = () => useContext(AuthContext);

@@ -1,6 +1,7 @@
 export interface IMutationArgs<IArg, IReturn> {
   key?: string[];
   callback: (arg: IArg) => Promise<IReturn>;
+  onSuccess?: () => void;
 }
 
 export interface IQueryArgs<IArg, IReturn> {

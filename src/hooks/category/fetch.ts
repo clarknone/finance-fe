@@ -13,7 +13,7 @@ export function useCategoryCreate() {
 }
 
 export function useCategoryQuery() {
-  const queryObject: IQueryArgs<ICategoryForm, ICategory> = {
+  const queryObject: IQueryArgs<ICategoryForm, ICategory[]> = {
     key: ["category"],
     callback: getCategoryApi,
   };
