@@ -4,7 +4,7 @@ import axios from "axios";
 
 export async function createCategoryApi(data: ICategoryForm): Promise<ICategory> {
     return axios
-      .post("", data)
+      .post("/category", data)
       .then((resp) => {
         return resp.data;
       })
@@ -14,9 +14,9 @@ export async function createCategoryApi(data: ICategoryForm): Promise<ICategory>
   }
   
 
-  export async function getCategoryApi(): Promise<ICategory> {
+  export async function getCategoryApi(): Promise<ICategory[]> {
     return axios
-      .get("")
+      .get("/category")
       .then((resp) => {
         return resp.data;
       })

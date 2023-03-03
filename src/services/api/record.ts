@@ -4,7 +4,7 @@ import axios from "axios";
 
 export async function createRecordApi(data: IRecordForm): Promise<IRecord> {
   return axios
-    .post("", data)
+    .post("/record", data)
     .then((resp) => {
       return resp.data;
     })
@@ -13,9 +13,9 @@ export async function createRecordApi(data: IRecordForm): Promise<IRecord> {
     });
 }
 
-export async function getRecordApi(): Promise<IRecord> {
+export async function getRecordApi(): Promise<IRecord[]> {
   return axios
-    .get("")
+    .get("/record")
     .then((resp) => {
       return resp.data;
     })
