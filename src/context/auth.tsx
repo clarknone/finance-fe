@@ -1,25 +1,79 @@
-import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react";
+import React, { createContext, PropsWithChildren } from "react";
+import { useContext, useState, useEffect } from "react";
+import axios from "axios";
+import { setToken } from "@/services/api/config";
+import { ILoginForm, ISignupForm } from "@/interfaces/auth/form";
+import { useQueryClient } from "@tanstack/react-query";
 
-interface IAuthContext {
-  auth?: {};
-  login?: () => void;
-  signup?: () => void;
+interface IAuthData {
+  token?: string;
+  isVerified?: boolean;
+  [index: string]: any;
+}
+
+interface IContextData {
+  auth?: IAuthData;
+  signUp?: (data: ISignupForm) => Promise<void>;
+  login?: (data: ILoginForm) => Promise<void>;
   logout?: () => void;
 }
 
-const AuthContext = createContext<IAuthContext>({});
+const userContext = createContext<IContextData>({});
 
-export function AuthContextProvider({ children }: PropsWithChildren) {
-  const [loading, setLoading] = useState(false);
-  const [auth, setAuth] = useState({});
+export default function AuthContextProvider({ children }: PropsWithChildren) {
+  const [auth, setAuth] = useState<IAuthData>({});
+  const [loading, setLoading] = useState(true);
+  const queryClient = useQueryClient();
 
-  function login() {}
-  function signup() {}
-  function logout() {}
+  useEffect(() => {
+    let details: IAuthData = JSON.parse(localStorage.getItem("token") || "{}");
+    if (details.token) {
+      setAuth(details);
+    }
+    setLoading(false);
+  }, []);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (auth.token) {
+      localStorage.setItem("token", JSON.stringify(auth));
+      setToken(auth.token);
+    }
+  }, [auth]);
 
-  return <AuthContext.Provider value={{ auth, login, signup, logout }}>{!loading && children}</AuthContext.Provider>;
+  const login = async (data: ILoginForm) => {
+    return await axios
+      .post("/auth/login", data)
+      .then((res) => {
+        setAuth({ ...res.data });
+      })
+      .catch((e) => {
+        const message = e.response?.data?.message || "Network Error";
+        throw new Error(message);
+      });
+  };
+
+  const signUp = async (data: ISignupForm) => {
+    return axios
+      .post("/auth/signup", data)
+      .then((res) => {
+        setAuth({ ...res.data });
+      })
+      .catch((e) => {
+        const message = e.response?.data?.message || "Network Error";
+        throw new Error(message);
+      });
+  };
+
+  const logout = async () => {
+    await queryClient.invalidateQueries({ refetchType: "all" });
+    await queryClient.clear();
+
+    localStorage.clear();
+    setAuth({});
+  };
+
+  return <userContext.Provider value={{ auth, login, signUp, logout }}>{!loading && children}</userContext.Provider>;
 }
 
-export const useAuthContext = () => useContext(AuthContext);
+const useAuthContext = () => useContext(userContext);
+export { useAuthContext };
