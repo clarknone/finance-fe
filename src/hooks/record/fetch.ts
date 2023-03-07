@@ -2,7 +2,7 @@ import { IRecord } from "@/interfaces/record";
 import { IRecordForm } from "@/interfaces/record/form";
 import { IMutationArgs, IQueryArgs } from "@/interfaces/hook/query";
 import { createRecordApi, getRecordApi } from "@/services/api/record";
-import { registerMutation, registerQuery } from "..";
+import { useRegisterMutation, useRegisterQuery } from "..";
 
 export function useRecordCreate(callback?: () => void) {
   const mutateObject: IMutationArgs<IRecordForm, IRecord> = {
@@ -10,7 +10,7 @@ export function useRecordCreate(callback?: () => void) {
     callback: (data: IRecordForm) => createRecordApi(data),
     
   };
-  return registerMutation(mutateObject);
+  return useRegisterMutation(mutateObject);
 }
 
 export function useRecordQuery() {
@@ -18,5 +18,5 @@ export function useRecordQuery() {
     key: ["record"],
     callback: getRecordApi,
   };
-  return registerQuery(queryObject);
+  return useRegisterQuery(queryObject);
 }
