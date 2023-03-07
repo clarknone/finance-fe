@@ -5,6 +5,7 @@ const nextConfig = withPWA({
   // reactStrictMode: true,
   dest: "public",
   register: true,
+  swSrc:"src/services/pwa/workers/sw.js",
   skipWaiting: true,
 });
 

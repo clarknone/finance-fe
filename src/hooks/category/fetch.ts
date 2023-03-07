@@ -2,14 +2,14 @@ import { ICategory } from "@/interfaces/category";
 import { ICategoryForm } from "@/interfaces/category/form";
 import { IMutationArgs, IQueryArgs } from "@/interfaces/hook/query";
 import { createCategoryApi, getCategoryApi } from "@/services/api/category";
-import { registerMutation, registerQuery } from "..";
+import { useRegisterMutation, useRegisterQuery } from "..";
 
 export function useCategoryCreate() {
   const mutateObject: IMutationArgs<ICategoryForm, ICategory> = {
     key: ["category"],
     callback: (data: ICategoryForm) => createCategoryApi(data),
   };
-  return registerMutation(mutateObject);
+  return useRegisterMutation(mutateObject);
 }
 
 export function useCategoryQuery() {
@@ -17,5 +17,5 @@ export function useCategoryQuery() {
     key: ["category"],
     callback: getCategoryApi,
   };
-  return registerQuery(queryObject);
+  return useRegisterQuery(queryObject);
 }

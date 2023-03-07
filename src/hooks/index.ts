@@ -1,7 +1,7 @@
 import { IMutationArgs, IMutationResponse, IQueryArgs, IQueryResponse } from "@/interfaces/hook/query";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-export function registerMutation<IArg, IReturn>({ callback, key, onSuccess }: IMutationArgs<IArg, IReturn>) {
+export function useRegisterMutation<IArg, IReturn>({ callback, key, onSuccess }: IMutationArgs<IArg, IReturn>) {
   const queryClient = useQueryClient();
   return useMutation(
     (data: IArg) => {
@@ -16,7 +16,7 @@ export function registerMutation<IArg, IReturn>({ callback, key, onSuccess }: IM
   );
 }
 
-export function registerQuery<IArg, IReturn>({ callback, key }: IQueryArgs<IArg, IReturn>) {
+export function useRegisterQuery<IArg, IReturn>({ callback, key }: IQueryArgs<IArg, IReturn>) {
   const { status, data, isLoading, error } = useQuery(key, (arg) => {
     return callback && callback(arg);
   });
