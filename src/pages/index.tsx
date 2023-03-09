@@ -2,7 +2,7 @@ import LoadingButton from "@/component/general/loadingButton";
 import CustomSnackBar from "@/component/general/snackbar";
 import { useAuthContext } from "@/context/auth";
 import { ILoginForm } from "@/interfaces/auth/form";
-import { Button, Card,  Stack, TextField, Typography } from "@mui/material";
+import { Button, Card, Stack, TextField, Typography } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
@@ -35,6 +35,14 @@ export default function AuthPage() {
   return (
     <Stack justifyContent={"center"} alignItems="center" sx={{ minHeight: "100vh" }}>
       <Card elevation={0}>
+        <Stack direction={"row"} gap="20px">
+          <Link href={"/fallback"}>
+            <Button> Fall </Button>
+          </Link>
+          <Link href={"/user"}>
+            <Button> User </Button>
+          </Link>
+        </Stack>
         <Stack p={"1em"} gap={"1em"} justifyContent="center">
           <Typography>
             {" "}
